@@ -1,3 +1,8 @@
+Absolutely. I checked your notebook again, including the **actual model results and conclusion**, so let's make the README accurate rather than overstating the GenAI/Azure/Streamlit parts. 
+
+**Copy everything below and replace your current README with it.**
+
+````markdown
 # Glassdoor Job Salary Prediction using Machine Learning, GenAI & Microsoft Azure
 
 ## 📌 Project Overview
@@ -13,19 +18,19 @@ The project covers:
 - Outlier analysis
 - Data visualization
 - Correlation analysis
+- Hypothesis testing
 - Feature engineering and selection
 - Machine Learning regression
 - Model evaluation
-- Cross-validation and hyperparameter tuning
-- GenAI integration
-- Microsoft Azure integration
-- Streamlit application concept
+- Cross-validation
+- Hyperparameter tuning
+- Model saving for future deployment
 
 ---
 
 ## 🎯 Problem Statement
 
-Salary can vary significantly depending on job role, location, company characteristics, industry, and other job-related factors.
+Salary can vary significantly depending on job role, location, company characteristics, industry, sector, and other job-related factors.
 
 The objective of this project is to use Glassdoor job-posting data to:
 
@@ -33,7 +38,7 @@ The objective of this project is to use Glassdoor job-posting data to:
 - Identify important factors associated with salary
 - Build Machine Learning models to predict salary
 - Compare and evaluate model performance
-- Provide understandable insights related to salary predictions
+- Understand the business relevance of salary prediction
 
 ---
 
@@ -58,13 +63,16 @@ The major attributes include:
 - Revenue
 - Competitors
 
-During the initial analysis:
+### Initial Dataset Analysis
 
-- The dataset contains 956 rows and 15 columns.
-- No duplicate rows were found.
-- No null values were found.
-- Some columns contain placeholder values such as `-1`, which were investigated during data cleaning.
-- The `Salary Estimate` column is stored as text and requires preprocessing before being used as the target variable.
+- **Rows:** 956
+- **Columns:** 15
+- **Duplicate rows:** 0
+- **Null values:** 0
+
+The dataset also contains placeholder values such as `-1`, which were investigated separately during data cleaning.
+
+The `Salary Estimate` column was stored as text and required preprocessing before being used as the target variable for regression.
 
 ---
 
@@ -75,16 +83,19 @@ The project performs detailed exploratory analysis to understand the dataset and
 The analysis includes:
 
 ### Univariate Analysis
+
 Analysis of individual variables and their distributions.
 
 ### Bivariate Analysis
-Analysis of relationships between two variables, including:
 
-- Numerical vs Numerical
-- Numerical vs Categorical
-- Categorical vs Categorical
+Analysis of relationships between:
+
+- Numerical vs Numerical variables
+- Numerical vs Categorical variables
+- Categorical vs Categorical variables
 
 ### Multivariate Analysis
+
 Analysis of relationships between multiple variables and salary.
 
 The project follows the **UBM approach**:
@@ -93,7 +104,7 @@ The project follows the **UBM approach**:
 - **B – Bivariate Analysis**
 - **M – Multivariate Analysis**
 
-Visualizations are used to identify meaningful patterns and communicate business insights.
+Multiple visualizations were created to identify meaningful patterns and communicate business insights.
 
 ---
 
@@ -108,9 +119,12 @@ The preprocessing workflow includes:
 5. Checking missing values
 6. Investigating placeholder values
 7. Processing the salary estimate column
-8. Feature preparation
-9. Encoding categorical variables
-10. Preparing the dataset for Machine Learning
+8. Feature engineering
+9. Feature selection
+10. Encoding categorical variables
+11. Feature scaling where required
+12. Preparing the dataset for Machine Learning
+13. Splitting the dataset into training and testing sets
 
 ---
 
@@ -131,60 +145,212 @@ The Machine Learning workflow includes:
 
 ### Models Used
 
-- Linear Regression
-- Random Forest Regressor
+#### 1. Linear Regression
+
+Linear Regression was used as one of the regression models for predicting salary.
+
+#### 2. Random Forest Regressor
+
+Random Forest Regressor was used as a second regression approach to capture potentially non-linear relationships between the features and salary.
 
 ---
 
 ## 📈 Model Evaluation
 
-The models are evaluated using multiple regression metrics:
+The models were evaluated using three regression metrics:
 
 ### Mean Absolute Error (MAE)
 
-Measures the average absolute difference between actual and predicted values.
+MAE measures the average absolute difference between the actual and predicted salary values.
+
+A lower MAE indicates that predictions are closer to the actual values on average.
 
 ### Root Mean Squared Error (RMSE)
 
-Measures prediction error while giving greater importance to larger errors.
+RMSE measures prediction error while giving greater importance to larger errors.
+
+A lower RMSE indicates fewer or smaller large prediction errors.
 
 ### R² Score
 
-Measures how well the model explains the variation in the target variable.
+R² measures how much of the variation in the target variable is explained by the model.
 
-Using multiple evaluation metrics provides a better understanding of model performance.
-
----
-
-## ✨ GenAI Component
-
-The project also incorporates a **Generative AI component**.
-
-A Gemini-based GenAI component is considered for providing natural-language explanations and insights related to salary predictions.
-
-The purpose is to make the Machine Learning prediction easier for users to understand rather than providing only a numerical salary prediction.
+A higher R² indicates that the model explains more of the variation in salary.
 
 ---
 
-## ☁️ Microsoft Azure
+## 📊 Model Performance
 
-Microsoft Azure is included as part of the project's cloud-based Machine Learning and deployment objectives.
+### Linear Regression
 
-The overall project is designed around an end-to-end workflow:
+| Metric | Score |
+|---|---:|
+| MAE | 7.13K |
+| RMSE | 14.47K |
+| R² | 0.8205 |
+
+### Random Forest Regressor
+
+| Metric | Score |
+|---|---:|
+| MAE | 12.59K |
+| RMSE | 17.92K |
+| R² | 0.7248 |
+
+Based on the test-set results, **Linear Regression performed better than the baseline Random Forest model**.
+
+---
+
+## ⚙️ Cross-Validation & Hyperparameter Tuning
+
+GridSearchCV was used to perform hyperparameter optimization for the Random Forest Regressor.
+
+The tuning used **5-fold cross-validation**.
+
+The hyperparameters considered included:
+
+- `n_estimators`
+- `max_depth`
+- `min_samples_split`
+- `min_samples_leaf`
+
+### Best Parameters
 
 ```text
-Data
-  ↓
-Data Preprocessing
-  ↓
-Exploratory Data Analysis
-  ↓
-Feature Engineering
-  ↓
-Machine Learning
-  ↓
-Model Evaluation
-  ↓
-GenAI
-  ↓
-Cloud / Deployment
+n_estimators = 200
+max_depth = None
+min_samples_split = 2
+min_samples_leaf = 1
+````
+
+### Tuned Random Forest Performance
+
+| Metric | Baseline Random Forest | Tuned Random Forest |
+| ------ | ---------------------: | ------------------: |
+| MAE    |                 12.59K |              12.70K |
+| RMSE   |                 17.92K |              17.92K |
+| R²     |                 0.7248 |              0.7248 |
+
+The tuned Random Forest did **not improve** the test-set performance compared with the baseline Random Forest.
+
+Therefore, based on the models evaluated in this project, **Linear Regression remained the best-performing model**.
+
+---
+
+## 💼 Business Impact
+
+The salary prediction model can potentially support:
+
+* Salary estimation for job seekers
+* Salary benchmarking
+* Understanding salary patterns across job-related attributes
+* Recruiter and employer analysis
+* Data-driven compensation insights
+
+However, the predictions should be considered **estimates rather than exact salary values**, because actual compensation can depend on additional factors that are not represented in the dataset.
+
+---
+
+## 💾 Model Saving
+
+The final Linear Regression pipeline was saved using **Joblib** for future deployment and application development.
+
+```text
+glassdoor_salary_prediction_model.joblib
+```
+
+The saved model was also loaded again successfully as a sanity check.
+
+---
+
+## 🚀 Future Scope
+
+The project can be extended further by:
+
+* Developing an interactive Streamlit application
+* Deploying the application to a cloud platform such as Microsoft Azure
+* Integrating Generative AI for natural-language explanations of salary predictions
+* Improving the model using additional features and larger datasets
+* Exploring additional Machine Learning algorithms
+
+---
+
+## 🧰 Technologies Used
+
+| Category                | Technologies                               |
+| ----------------------- | ------------------------------------------ |
+| Programming Language    | Python                                     |
+| Data Manipulation       | Pandas, NumPy                              |
+| Data Visualization      | Matplotlib, Seaborn                        |
+| Machine Learning        | Scikit-learn                               |
+| Regression              | Linear Regression, Random Forest Regressor |
+| Model Evaluation        | MAE, RMSE, R²                              |
+| Hyperparameter Tuning   | GridSearchCV                               |
+| Model Saving            | Joblib                                     |
+| Development Environment | Google Colab                               |
+| Version Control         | Git, GitHub                                |
+
+---
+
+## 📁 Project Structure
+
+```text
+glassdoor-salary-prediction-ml-genai-azure/
+│
+├── Glassdoor-Salary-Prediction-ML-GenAI-Azure.ipynb
+├── glassdoor_jobs.csv
+├── glassdoor_salary_prediction_model.joblib
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🚀 How to Run
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/glassdoor-salary-prediction-ml-genai-azure.git
+```
+
+### 2. Navigate to the project folder
+
+```bash
+cd glassdoor-salary-prediction-ml-genai-azure
+```
+
+### 3. Install the required libraries
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Open the notebook
+
+Open:
+
+```text
+Glassdoor-Salary-Prediction-ML-GenAI-Azure.ipynb
+```
+
+The notebook can be opened using **Google Colab** or **Jupyter Notebook**.
+
+Make sure `glassdoor_jobs.csv` is in the same directory as the notebook.
+
+---
+
+## 📌 Key Takeaway
+
+This project demonstrates an end-to-end Machine Learning workflow for salary prediction using Glassdoor job-posting data.
+
+The workflow includes:
+
+**Data Analysis → Data Preprocessing → EDA → Feature Engineering → Machine Learning → Model Evaluation → Hyperparameter Tuning → Model Saving**
+
+Among the models evaluated, **Linear Regression achieved the strongest test-set performance**, with an R² score of **0.8205** and an MAE of **7.13K**.
+
+The saved model can be used as a foundation for future Streamlit application development, GenAI integration, and cloud deployment using Microsoft Azure.
+
+---
+
