@@ -292,7 +292,7 @@ The project can be extended further by:
 ```text
 glassdoor-salary-prediction-ml-genai-azure/
 │
-├── Glassdoor-Salary-Prediction-ML-GenAI-Azure.ipynb
+├── Glassdoor-Job-Salary-Prediction-.ipynb
 ├── glassdoor_jobs.csv
 ├── glassdoor_salary_prediction_model.joblib
 ├── requirements.txt
