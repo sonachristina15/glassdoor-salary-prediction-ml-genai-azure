@@ -1,8 +1,3 @@
-Absolutely. I checked your notebook again, including the **actual model results and conclusion**, so let's make the README accurate rather than overstating the GenAI/Azure/Streamlit parts. 
-
-**Copy everything below and replace your current README with it.**
-
-````markdown
 # Glassdoor Job Salary Prediction using Machine Learning, GenAI & Microsoft Azure
 
 ## 📌 Project Overview
